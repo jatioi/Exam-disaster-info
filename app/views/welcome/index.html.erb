@@ -1,8 +1,45 @@
-
 <% if user_signed_in? %>
   <h1> Hello <%= current_user.email %> </h1>
   <p>Welcome to my page!</p>
   <%= link_to 'Sign out', destroy_user_session_path, data: { 'turbo-method': :delete } %>
-<% else %>
-  <%= link_to 'Sign in', new_user_session_path %>
+<%# else %>
+  <%#= link_to 'Sign in', new_user_session_path %>
 <% end %>
+
+<h1>Post List</h1>
+
+<table class="table table-hover table-bordered">
+  <thead class="table-dark">
+  <tr>
+    <th>Title</th>
+    <th>Content</th>
+    <th>Category</th>
+    <th>Address</th>
+    <th>Action</th>
+
+  </tr>
+  </thead>
+  <tbody>
+  <% @posts.each do |post| %>
+    <tr>
+      <td><%= post.title %></td>
+      <td><%= post.content %></td>
+      <td><%= post.categories.pluck(:name).join(',') %></td>
+      <td><%= post.address %></td>
+
+      <td class="btn-group-vertical">
+        <%= link_to 'Edit', edit_post_path(post.id),class: "btn btn-outline-success" %>
+        <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>
+        <%#= link_to 'Comments', post_path(post) %>
+        <%= link_to 'New Comment', new_post_comment_path(post), class: "btn btn-outline-secondary" %>
+        <%= button_to 'Delete', post_path(post.id), method: :delete, class: 'btn btn-danger' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= paginate @posts %>
+
+
+
+
