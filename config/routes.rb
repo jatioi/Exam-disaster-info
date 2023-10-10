@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   # root "articles#index"
   root 'welcome#index'
   resources :posts do
-    resources :comments, except: :show
+    resources :comments, except: [:show, :index]
   end
   resources :categories, except: :show
 end
