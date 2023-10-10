@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
 
   def index
-    @posts = Post.includes(:categories).all.page(params[:page]).per(5)
+    @posts = Post.includes(:categories).all.order(comments_count: :desc).page(params[:page]).per(5)
   end
 
   def new
