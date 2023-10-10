@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: :index
+
   def index
     @posts = Post.includes(:categories).all
   end
@@ -10,6 +12,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
+    @post.user = current_user
     if @post.save
       redirect_to posts_path
     else
@@ -17,7 +20,10 @@ class PostsController < ApplicationController
       render :new
     end
   end
-  def show; end
+  def show
+    @comments = @post.comments.includes(:user)
+    @comment = @post.comments.build
+  end
   def edit; end
   def update
     @post = Post.find(params[:id])
