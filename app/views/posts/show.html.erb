@@ -1,3 +1,4 @@
+<h3>Post</h3>
 <ul>
   <li>Title: <%= @post.title %></li>
   <li>Content: <%= @post.content %></li>
@@ -6,12 +7,24 @@
 
 
 </ul>
-<% @comments.each do |comment| %>
-  <li>
-    <%= comment.content %>
-    <%= comment.created_at %>
-    <%= link_to 'Edit', edit_post_comment_path(@post, comment), class: "btn btn-sm btn-primary me-2" if comment.user == current_user %>
-    <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, class: "btn btn-sm btn-danger me-2", data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } if comment.user == current_user || @post.user == current_user %>
-  </li>
+<%= link_to 'Edit Post', edit_post_path(@post), class: 'btn btn-warning' %>
+<h3>Comments <%= link_to 'Add comments', new_post_comment_path(@post), class: "btn btn-light" %>
+</h3>
+
+<% if @comments.any? %>
+  <% @comments.each do |comment| %>
+    <li>
+      <%= comment.content %>
+      <%= comment.created_at %>
+      <%= link_to 'Edit', edit_post_comment_path(@post, comment), class: "btn btn-sm btn-primary me-2" if comment.user == current_user %>
+      <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, class: "btn btn-sm btn-danger me-2", data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } if comment.user == current_user || @post.user == current_user %>
+    </li>
+
+  <% end %>
+<% else %>
+  <p>No comments yet.</p>
 <% end %>
-<%= link_to 'Edit', edit_post_path(@post), class: 'btn btn-warning' %>
+<%= link_to 'Post List', posts_path %>
+
+
+
