@@ -16,8 +16,11 @@
 
       <td>
         <%= link_to 'Edit', edit_post_path(post.id) %>
-        <%= link_to 'Show', post_path(post)  %>
+        <%= link_to 'Show', post_path(post) %>
+        <%= link_to 'Comments', post_comments_path(post) %>
+        <%= link_to 'New Comment', new_post_comment_path(post) %>
         <%= button_to 'Delete', post_path(post.id), method: :delete, class: 'btn btn-danger' %>
+
       </td>
     </tr>
   <% end %>
