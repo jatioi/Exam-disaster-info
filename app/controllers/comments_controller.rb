@@ -3,7 +3,8 @@ class CommentsController < ApplicationController
   before_action :set_comment, only: [:edit, :update, :destroy]
 
   def index
-    @comments = @post.comments
+    @comments = @post.comments.page(params[:page]).per(5)
+
   end
 
   def new
@@ -25,7 +26,7 @@ class CommentsController < ApplicationController
   def update
     if @comment.update(comment_params)
       flash[:notice] = 'Comment updated successfully'
-      redirect_to post_comments_path(@post)
+      redirect_to @post
     else
       render :edit
     end
@@ -41,6 +42,7 @@ class CommentsController < ApplicationController
 
   def set_post
     @post = Post.find params[:post_id]
+
   end
 
   def set_comment

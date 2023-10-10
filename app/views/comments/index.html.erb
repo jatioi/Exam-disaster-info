@@ -3,7 +3,6 @@
 <ul>
   <% if @comments.any? %>
   <% @comments.each do |comment| %>
-    <li><%= comment.content %>(<%= comment.created_at %>)</li>
     <li>
       <%= comment.content %>(<%= comment.created_at %>)
       <%= link_to 'Edit', edit_post_comment_path(@post, comment) %>
@@ -14,5 +13,5 @@
     <p>No comments yet.</p>
   <% end %>
 </ul>
-
+<%= paginate @comments %>
 <%= link_to 'Post List', posts_path %>
