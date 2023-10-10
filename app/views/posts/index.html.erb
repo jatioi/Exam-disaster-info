@@ -7,6 +7,7 @@
       <th>Title</th>
       <th>Content</th>
       <th>Category</th>
+      <th>Comments count</th>
       <th>Address</th>
       <th>Action</th>
 
@@ -18,6 +19,7 @@
           <td><%= post.title %></td>
           <td><%= post.content %></td>
           <td><%= post.categories.pluck(:name).join(',') %></td>
+          <td><%= post.comments_count %></td>
           <td><%= post.address %></td>
 
           <td class="btn-group-vertical">
