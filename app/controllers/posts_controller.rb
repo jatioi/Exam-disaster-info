@@ -3,7 +3,7 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, except: :index
 
   def index
-    @posts = Post.includes(:categories).all
+    @posts = Post.includes(:categories).all.page(params[:page]).per(5)
   end
 
   def new

@@ -1,29 +1,38 @@
 <h1>Post List</h1>
 
-<table>
-  <thead>
-  <td>Title</td>
-  <td>Content</td>
-  <td>Category</td>
-  <td>Address</td>
-  </thead>
-  <% @posts.each do |post| %>
+
+<table class="table table-hover table-bordered">
+  <thead class="table-dark">
     <tr>
-      <td><%= post.title %></td>
-      <td><%= post.content %></td>
-      <td><%= post.categories.pluck(:name).join(',') %></td>
-      <td><%= post.address %></td>
+      <th>Title</th>
+      <th>Content</th>
+      <th>Category</th>
+      <th>Address</th>
+      <th>Action</th>
 
-      <td>
-        <%= link_to 'Edit', edit_post_path(post.id) %>
-        <%= link_to 'Show', post_path(post) %>
-        <%= link_to 'Comments', post_comments_path(post) %>
-        <%= link_to 'New Comment', new_post_comment_path(post) %>
-        <%= button_to 'Delete', post_path(post.id), method: :delete, class: 'btn btn-danger' %>
-
-      </td>
     </tr>
-  <% end %>
-</table>
+  </thead>
+    <tbody>
+      <% @posts.each do |post| %>
+        <tr>
+          <td><%= post.title %></td>
+          <td><%= post.content %></td>
+          <td><%= post.categories.pluck(:name).join(',') %></td>
+          <td><%= post.address %></td>
 
+          <td class="btn-group-vertical">
+            <%= link_to 'Edit', edit_post_path(post.id),class: "btn btn-outline-success" %>
+            <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>
+            <%#= link_to 'Comments', post_path(post) %>
+            <%= link_to 'New Comment', new_post_comment_path(post), class: "btn btn-outline-secondary" %>
+            <%= button_to 'Delete', post_path(post.id), method: :delete, class: 'btn btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+</table>
+<%= paginate @posts %>
 <%= link_to 'New', new_post_path %>
+
+
+
