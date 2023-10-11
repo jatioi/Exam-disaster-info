@@ -1,4 +1,4 @@
-<h1>Your Posts</h1>
+<h1>Your Posts <%= link_to 'New', new_post_path, class: "btn btn-secondary" %></h1>
 
 <table class="table table-hover table-bordered">
   <thead class="table-dark">
@@ -31,4 +31,4 @@
     </tr>
   <% end %>
 </table>
-<%= link_to 'New', new_post_path %>
+
