@@ -24,6 +24,12 @@
       <li class="nav-item">
         <%= link_to 'Post', posts_path, class: "nav-link #{'active' if controller_name == 'posts' && action_name == 'index' }" %>
       </li>
+      <li class="nav-item">
+        <%= link_to 'My Post', user_posts_path, class: "nav-link #{'active' if controller_name == 'user/posts' && action_name == 'index' }" %>
+      </li>
+      <li class="nav-item">
+        <%= link_to 'My Comments', user_comments_path, class: "nav-link #{'active' if controller_name == 'user/comments' && action_name == 'index' }" %>
+      </li>
 
 
 
