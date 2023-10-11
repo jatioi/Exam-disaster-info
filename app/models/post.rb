@@ -7,4 +7,5 @@ class Post < ApplicationRecord
   has_many :categories, through: :post_category_ships
   has_many :comments, dependent: :destroy
   belongs_to :user
+  mount_uploader :image, ImageUploader
 end
