@@ -1,9 +1,15 @@
 <h1>Your Comments</h1>
 
-<table>
-  <% @my_comments.each do |comment| %>
-    <li><%= comment.content %></li>
-    <%= link_to 'VIEW POST', post_path(comment.post) %>
-  <% end %>
-</table>
-
+<div class="table-responsive">
+  <table class="table">
+    <% @my_comments.each do |comment| %>
+      <tr>
+        <td><%= comment.content %></td>
+        <td><%= link_to 'VIEW POST', post_path(comment.post) %></td>
+      </tr>
+    <% end %>
+  </table>
+  <div class="d-flex justify-content-center">
+    <%= paginate @my_comments %>
+  </div>
+</div>
