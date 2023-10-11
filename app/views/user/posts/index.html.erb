@@ -6,6 +6,7 @@
     <th>Title</th>
     <th>Content</th>
     <th>Category</th>
+    <th>Image</th>
     <th>Address</th>
     <th>Action</th>
 
@@ -17,6 +18,7 @@
       <td><%= post.title %></td>
       <td><%= post.content %></td>
       <td><%= post.categories.pluck(:name).join(',') %></td>
+      <td><%= image_tag post.image.url if post.image.present? %></td>
       <td><%= post.address %></td>
       <td class="btn-group-vertical">
         <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>

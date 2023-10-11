@@ -1,5 +1,8 @@
-<h3>Post</h3>
+<h3>Post  <%= link_to 'Edit Post', edit_post_path(@post), class: 'btn btn-outline-success' if @post.user == current_user %>
+</h3>
+
 <ul>
+  <td><%= image_tag @post.image.url if @post.image.present? %></td>
   <li>Title: <%= @post.title %></li>
   <li>Content: <%= @post.content %></li>
   <li>Created At: <%= @post.created_at %></li>
@@ -29,7 +32,8 @@
 <% else %>
   <p>No comments yet.</p>
 <% end %>
-<%= link_to '<<Go back', root_path %>
+<%#= link_to '<<Go back', user_posts_path %>
 
+<%= link_to '<< Go back', session[:previous_url] || user_posts_path %>
 
 

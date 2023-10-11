@@ -8,6 +8,7 @@
     <th>Content</th>
     <th>Category</th>
     <th>Comments count</th>
+    <th>Image</th>
     <th>Address</th>
     <th>Action</th>
 
@@ -20,6 +21,7 @@
       <td><%= post.content %></td>
       <td><%= post.categories.pluck(:name).join(',') %></td>
       <td><%= post.comments_count %></td>
+      <td><%= image_tag post.image.url if post.image.present? %></td>
       <td><%= post.address %></td>
 
       <td class="btn-group-vertical">
