@@ -12,6 +12,7 @@
   <thead class="table-dark">
   <tr>
     <th>Title</th>
+    <th>Email</th>
     <th>Content</th>
     <th>Category</th>
     <th>Comments count</th>
@@ -29,6 +30,7 @@
         <% end %>
         <%= post.title %>
       </td>
+      <td><%= post.user.email %></td>
       <td><%= post.content %></td>
       <td><%= post.categories.pluck(:name).join(',') %></td>
       <td><%= post.comments_count %></td>

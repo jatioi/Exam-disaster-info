@@ -7,7 +7,7 @@
 
 
 </ul>
-<%= link_to 'Edit Post', edit_post_path(@post), class: 'btn btn-warning' %>
+<%= link_to 'Edit Post', edit_post_path(@post), class: 'btn btn-warning' if @post.user == current_user %>
 <h3>Comments <%= link_to 'Add comments', new_post_comment_path(@post), class: "btn btn-light" %>
 </h3>
 
@@ -15,16 +15,19 @@
   <% @comments.each do |comment| %>
     <li>
       <%= comment.content %>
+      <%= comment.user.email %>
       <%= comment.created_at %>
-      <%= link_to 'Edit', edit_post_comment_path(@post, comment), class: "btn btn-sm btn-primary me-2" if comment.user == current_user %>
-      <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, class: "btn btn-sm btn-danger me-2", data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } if comment.user == current_user || @post.user == current_user %>
+      <% if comment.user == current_user %>
+        <%= link_to 'Edit', edit_post_comment_path(@post, comment), class: "btn btn-sm btn-primary me-2" %>
+        <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, class: "btn btn-sm btn-danger me-2", data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+      <% end %>
     </li>
 
   <% end %>
 <% else %>
   <p>No comments yet.</p>
 <% end %>
-<%= link_to 'Post List', posts_path %>
+<%= link_to '<<Go back', root_path %>
 
 
 
