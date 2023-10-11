@@ -12,18 +12,20 @@
 </h3>
 
 <% if @comments.any? %>
-  <% @comments.each do |comment| %>
-    <li>
-      <%= comment.content %>
-      <%= comment.user.email %>
-      <%= comment.created_at %>
-      <% if comment.user == current_user %>
-        <%= link_to 'Edit', edit_post_comment_path(@post, comment), class: "btn btn-sm btn-primary me-2" %>
-        <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, class: "btn btn-sm btn-danger me-2", data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
-      <% end %>
-    </li>
+  <ul>
+    <% @comments.each do |comment| %>
+      <li>
+        <%= comment.content %>
+        <%= comment.user.email %>
+        <%= comment.created_at %>
+        <% if comment.user == current_user %>
+          <%= link_to 'Edit', edit_post_comment_path(@post, comment), class: "btn btn-sm btn-primary me-2" %>
+          <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, class: "btn btn-sm btn-danger me-2", data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+        <% end %>
+      </li>
 
-  <% end %>
+    <% end %>
+  </ul>
 <% else %>
   <p>No comments yet.</p>
 <% end %>
