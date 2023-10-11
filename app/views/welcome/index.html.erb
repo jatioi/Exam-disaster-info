@@ -36,17 +36,25 @@
       <td><%= post.comments_count %></td>
       <td><%= post.address %></td>
 
-      <td class="btn-group-vertical">
-        <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>
-        <%= link_to 'Edit', edit_post_path(post.id), class: "btn btn-outline-success" %>
-        <%#= link_to 'Comments', post_path(post) %>
-        <%= link_to 'New Comment', new_post_comment_path(post), class: "btn btn-outline-secondary" %>
-        <%= button_to 'Delete', post_path(post.id), method: :delete, class: 'btn btn-danger' %>
-      </td>
-    </tr>
+      <% if post.user != current_user %>
+
+        <td class="btn-group-vertical">
+          <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>
+          <%= link_to 'New Comment', new_post_comment_path(post), class: "btn btn-outline-secondary" %>
+        </td>
+      <% else %>
+        <td>
+          <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>
+          <%= link_to 'Edit', edit_post_path(post.id), class: "btn btn-outline-success" %>
+          <%= link_to 'New Comment', new_post_comment_path(post), class: "btn btn-outline-secondary" %>
+          <%#= link_to 'Comments', post_path(post) %>
+          <%= button_to 'Delete', post_path(post.id), method: :delete, class: 'btn btn-danger' %>
+        </td>
+        </tr>
+      <% end %>
+      </tbody>
   <% end %>
-  </tbody>
-</table>
+  </table>
 <div class="pagination justify-content-end">
   <%= paginate @posts %>
 </div>
