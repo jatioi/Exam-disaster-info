@@ -3,35 +3,37 @@
 
 <table class="table table-hover table-bordered">
   <thead class="table-dark">
-    <tr>
-      <th>Title</th>
-      <th>Content</th>
-      <th>Category</th>
-      <th>Comments count</th>
-      <th>Address</th>
-      <th>Action</th>
+  <tr>
+    <th>Title</th>
+    <th>Content</th>
+    <th>Category</th>
+    <th>Comments count</th>
+    <th>Address</th>
+    <th>Action</th>
 
-    </tr>
+  </tr>
   </thead>
-    <tbody>
-      <% @posts.each do |post| %>
-        <tr>
-          <td><%= post.title %></td>
-          <td><%= post.content %></td>
-          <td><%= post.categories.pluck(:name).join(',') %></td>
-          <td><%= post.comments_count %></td>
-          <td><%= post.address %></td>
+  <tbody>
+  <% @posts.each do |post| %>
+    <tr>
+      <td><%= post.title %></td>
+      <td><%= post.content %></td>
+      <td><%= post.categories.pluck(:name).join(',') %></td>
+      <td><%= post.comments_count %></td>
+      <td><%= post.address %></td>
 
-          <td class="btn-group-vertical">
-            <%= link_to 'Edit', edit_post_path(post.id),class: "btn btn-outline-success" %>
-            <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>
-            <%#= link_to 'Comments', post_path(post) %>
-            <%= link_to 'New Comment', new_post_comment_path(post), class: "btn btn-outline-secondary" %>
-            <%= button_to 'Delete', post_path(post.id), method: :delete, class: 'btn btn-danger' %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
+      <td class="btn-group-vertical">
+        <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>
+        <% if post.user == current_user %>
+          <%= link_to 'Edit', edit_post_path(post.id), class: "btn btn-outline-success" %>
+          <%#= link_to 'Comments', post_path(post) %>
+          <%= link_to 'New Comment', new_post_comment_path(post), class: "btn btn-outline-secondary" %>
+          <%= button_to 'Delete', post_path(post.id), method: :delete, class: 'btn btn-danger' %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
 </table>
 <%= paginate @posts %>
 <%= link_to 'New', new_post_path %>
