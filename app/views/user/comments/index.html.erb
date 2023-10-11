@@ -1,0 +1,9 @@
+<h1>Your Comments</h1>
+
+<table>
+  <% @my_comments.each do |comment| %>
+    <li><%= comment.content %></li>
+    <%= link_to 'VIEW POST', post_path(comment.post) %>
+  <% end %>
+</table>
+
