@@ -10,7 +10,6 @@
 
 
 </ul>
-<%= link_to 'Edit Post', edit_post_path(@post), class: 'btn btn-warning' if @post.user == current_user %>
 <h3>Comments <%= link_to 'Add comments', new_post_comment_path(@post), class: "btn btn-light" %>
 </h3>
 
@@ -32,8 +31,7 @@
 <% else %>
   <p>No comments yet.</p>
 <% end %>
-<%#= link_to '<<Go back', user_posts_path %>
 
-<%= link_to '<< Go back', session[:previous_url] || user_posts_path %>
+<%= link_to '<< Go back', user_posts_path %>
 
 
