@@ -11,8 +11,9 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Distaster-Info</a>
+<div></div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light container-">
+  <a class="navbar-brand font-monospace" href="#">Distaster-Info</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -21,9 +22,9 @@
       <li class="nav-item">
         <%= link_to 'Home', root_path, class: "nav-link #{'active' if controller_name == 'welcome' && action_name == 'index' }" %>
       </li>
-<!--      <li class="nav-item">-->
-        <%#= link_to 'Post', posts_path, class: "nav-link #{'active' if controller_name == 'posts' && action_name == 'index' }" %>
-<!--      </li>-->
+      <!--      <li class="nav-item">-->
+      <%#= link_to 'Post', posts_path, class: "nav-link #{'active' if controller_name == 'posts' && action_name == 'index' }" %>
+      <!--      </li>-->
       <li class="nav-item">
         <%= link_to 'My Post', user_posts_path, class: "nav-link #{'active' if controller_name == 'user/posts' && action_name == 'index' }" %>
       </li>
@@ -31,25 +32,29 @@
         <%= link_to 'My Comments', user_comments_path, class: "nav-link #{'active' if controller_name == 'user/comments' && action_name == 'index' }" %>
       </li>
 
-
-
-      <% if user_signed_in? %>
-        <div class="btn-group">
-          <button class="btn btn-black dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-            <span><i class="fa-solid fa-user"></i> <%= current_user.email %></span>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><%= link_to 'Sign out', destroy_user_session_path, class: "dropdown-item text-end", data: { 'turbo-method': :delete } %></li>
-          </ul>
-        </div>
-      <% else %>
-        <%= link_to new_user_session_path do %>
-          <span><i class="fa-solid fa-user"></i> Login</span>
-        <% end %>
-      <% end %>
     </ul>
   </div>
+
+  <div class="navbar-right">
+    <% if user_signed_in? %>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonDark" data-bs-toggle="dropdown" aria-expanded="false">
+          <span><i class="fa-solid fa-user"></i> <%= current_user.email %></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButtonDark">
+          <li><%= link_to 'Sign out', destroy_user_session_path, class: "dropdown-item", data: { 'turbo-method': :delete } %></li>
+        </ul>
+      </div>
+    <% else %>
+      <div class="text-end"> <!-- Use text-end to align content to the right -->
+        <%= link_to new_user_session_path, class: "btn btn-dark" do %>
+          <i class="fa-solid fa-user"></i> Login
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </nav>
+
 
 
 <div>
