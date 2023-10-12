@@ -1,18 +1,26 @@
-<%= form_with model: comment, url: path, data: { turbo: false } do |form| %>
-<% if comment.errors.any? %>
-  <ul>
-    <% comment.errors.each do |error| %>
-      <li><%= error.full_message %></li>
-    <% end %>
-  </ul>
-<% end %>
-<div>
-  <%= form.label :content %>
-  <%= form.text_field :content %>
+<div class="container">
+  <%= form_with model: comment, url: path, data: { turbo: false } do |form| %>
+    <div class="mb-3">
+      <% if comment.errors.any? %>
+        <ul class="alert alert-danger">
+          <% comment.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+
+
+    <h5 class="mb-3">
+      <%= form.label :content, class: "form-label" %>
+      <%= form.text_field :content, class: "form-control" %>
+    </h5>
+    <div class="mb-3">
+      <%= form.submit "Submit", class: "btn btn-primary" %>
+    </div>
+  <% end %>
 </div>
-<%= form.submit %>
-<% end %>
-<br>
+
 
 
 
