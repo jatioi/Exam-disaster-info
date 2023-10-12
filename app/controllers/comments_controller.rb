@@ -22,12 +22,15 @@ class CommentsController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    cookies[:return_to] ||= request.referer
+  end
 
   def update
     if @comment.update(comment_params)
       flash[:notice] = 'Comment updated successfully'
-      redirect_to @post
+      # redirect_to @post
+      redirect_to cookies.delete(:return_to)
     else
       render :edit
     end
