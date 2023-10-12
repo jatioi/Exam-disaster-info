@@ -1,65 +1,62 @@
-<% if user_signed_in? %>
-  <h1> Hello! <%= current_user.email %> </h1>
-  <h2>Welcome to my page!</h2>
-<%# else %>
-  <%#= link_to 'Sign in', new_user_session_path %>
-<% end %>
-
-<h1>Post List</h1>
-
-<table class="table table-hover table-bordered">
-  <thead class="table-dark">
-  <tr>
-    <th>Title</th>
-    <th>Email</th>
-    <th>Content</th>
-    <th>Category</th>
-    <th>Comments count</th>
-    <th>Image</th>
-    <th>Address</th>
-    <th>Action</th>
-
-  </tr>
-  </thead>
-  <tbody>
-  <% @posts.each_with_index do |post, index| %>
-    <tr>
-      <td>
-        <% if index < 3 && params[:page] == nil %>
-          <span class="badge bg-warning text-dark">HOT</span>
-        <% end %>
-        <%= post.title %>
-      </td>
-      <td><%= post.user.email %></td>
-      <td><%= post.content %></td>
-      <td><%= post.categories.pluck(:name).join(',') %></td>
-      <td><%= post.comments_count %></td>
-      <td><%= image_tag post.image.url if post.image.present? %></td>
-      <td><%= post.address %></td>
-
-      <% if post.user != current_user %>
-
-        <td class="btn-group-vertical">
-          <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>
-          <%= link_to 'New Comment', new_post_comment_path(post), class: "btn btn-outline-secondary" %>
-        </td>
-      <% else %>
-        <td>
-          <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>
-          <%= link_to 'Edit', edit_post_path(post.id), class: "btn btn-outline-success" %>
-          <%= link_to 'New Comment', new_post_comment_path(post), class: "btn btn-outline-secondary" %>
-          <%#= link_to 'Comments', post_path(post) %>
-          <%= button_to 'Delete', post_path(post.id), method: :delete, class: 'btn btn-danger' %>
-        </td>
-        </tr>
-      <% end %>
-      </tbody>
+<div class="card text-center">
+  <% if user_signed_in? %>
+    <h1 class="font-monospace"> Hello! <%= current_user.email %>  </h1>
+    <div class="card-header font-monospace">
+      Featured
+    </div>
   <% end %>
-  </table>
-<div class="pagination justify-content-end">
+</div>
+<h1 class="text-center text-bg-dark text-warning mb-0 font-monospace ">DISASTERS WORLDWIDE</h1>
+<div class="container w-50">
+  <% @posts.each_with_index do |post, index| %>
+    <div class="card mb-3 w-100">
+      <% if post.image.present? %>
+        <%= image_tag post.image.url, class: 'card-img-top', alt: 'Image' %>
+      <% end %>
+
+      <div class="card-body">
+        <h2 class="card-title font-monospace">
+          <div class="d-flex">
+            <% if index < 3 && params[:page].nil? %>
+              <small><h6><span class="badge bg-warning text-dark">HOT</span></h6></small>
+            <% end %>
+            <% if post.user == current_user %>
+              <small><h6><span class="badge bg-info text-dark">your post</span></h6></small>
+            <% end %>
+          </div>
+          <%= post.title %>
+        </h2>
+
+        <p class="card-text">
+          <small><strong> User: </strong><%= post.user.email %></small></p>
+        <p class="card-text"><%= post.content %></p>
+        <p class="card-text"><strong>Categories: </strong>
+          <small class="text-muted"><%= post.categories.pluck(:name).join(', ') %></small></p>
+        <p class="card-text"><strong>Comments: </strong>
+          <small class="text-muted"><%= post.comments_count %></small></p>
+        <p class="card-text">
+          <small class="text-muted">Last updated: <%= post.updated_at.strftime("%B %d, %Y") %></small></p>
+        <div class="btn-group-horizontal">
+          <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>
+          <%#= link_to 'New Comment', new_post_comment_path(post), class: "btn btn-outline-secondary" %>
+          <% if post.user == current_user %>
+            <%= link_to 'Edit', edit_post_path(post.id), class: "btn btn-outline-success" %>
+            <!--
+                <%#= button_to 'Delete', post_path(post.id), method: :delete, class: 'btn btn-danger' %>
+-->
+          <% end %>
+
+        </div>
+      </div>
+
+    </div>
+
+  <% end %>
+</div>
+<div class="d-flex justify-content-center">
   <%= paginate @posts %>
 </div>
-
-
+</div>
+</div>
 
 
