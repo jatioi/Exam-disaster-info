@@ -30,17 +30,20 @@ class PostsController < ApplicationController
   def edit
     @post = Post.find(params[:id])
     @page = params[:page]
+    cookies[:return_to] ||= request.referer
   end
   def update
     @post = Post.find(params[:id])
     @page = params[:page]
     if @post.update(post_params)
       flash[:notice] = 'Post update successfully'
-      redirect_to params[:from_my_post].present? ? user_posts_path : root_path(page: @page)
+      # redirect_to params[:from_my_post].present? ? user_posts_path : root_path(page: @page)
+      redirect_to cookies.delete(:return_to)
     else
       flash.now[:alert] = 'Post failed to update'
       render :edit, status: :unprocessable_entity
     end
+
   end
   def destroy
     @post.destroy
