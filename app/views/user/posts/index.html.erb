@@ -1,34 +1,49 @@
-<h1>Your Posts <%= link_to 'New', new_post_path, class: "btn btn-secondary" %></h1>
+<div class="container">
+  <div class="d-flex flex-row justify-content-between align-items-center border-bottom pb-2 mb-2">
+    <h1 class="d-flex flex-row justify-content-center font-monospace">Your Posts</h1>
+    <%= link_to 'Add new post', new_post_path, class: "btn btn-sm btn-secondary" %>
+  </div>
 
-<table class="table table-hover table-bordered">
-  <thead class="table-dark">
-  <tr>
-    <th>Title</th>
-    <th>Content</th>
-    <th>Category</th>
-    <th>Image</th>
-    <th>Address</th>
-    <th>Action</th>
-
-  </tr>
-  </thead>
-
-  <% @user_posts.each do |post| %>
-    <tr>
-      <td><%= post.title %></td>
-      <td><%= post.content %></td>
-      <td><%= post.categories.pluck(:name).join(',') %></td>
-      <td><%= image_tag post.image.url if post.image.present? %></td>
-      <td><%= post.address %></td>
-      <td class="btn-group-vertical">
-        <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>
-        <% if post.user == current_user %>
-          <%= link_to 'Edit', edit_post_path(post.id), class: "btn btn-outline-success" %>
-          <%= link_to 'New Comment', new_post_comment_path(post), class: "btn btn-outline-secondary" %>
-          <%= button_to 'Delete', post_path(post.id), method: :delete, class: 'btn btn-danger' %>
+  <div class="container w-50" style="max-width: 540px;">
+    <div style="width: 45rem">
+      <% if @user_posts.any? %>
+        <% @user_posts.each do |post| %>
+          <div class="col">
+            <div class="card mb-3">
+              <% if post.image.present? %>
+                <%= image_tag post.image.url, class: "card-img-top", alt: "Image" %>
+              <% else %>
+                <!-- You can add a placeholder image or leave it empty as needed -->
+              <% end %>
+              <div class="card-body">
+                <h2 class="card-title font-monospace"><%= post.title %></h2>
+                <p class="card-text"><%= post.content %></p>
+                <p class="card-text"><strong>Categories:</strong>
+                  <small class="text-muted"><%= post.categories.pluck(:name).join(', ') %></small></p>
+                <p class="list-group list-group-flush">
+                  <li class="list-group-item"><strong>Address:</strong> <%= post.address %></li>
+                </p>
+                <p class="card-text">
+                  <small class="text-muted">Last updated: <%= post.updated_at.strftime("%B %d, %Y") %></small></p>
+              </div>
+              <div class="card-body">
+                <%= link_to 'Show', post_path(post), class: "btn btn-outline-primary" %>
+                <%= link_to 'Edit', edit_post_path(post, from_my_post: true), class: "btn btn-outline-primary" %>
+                <%= button_to 'Delete',post_path(post), method: :delete, class: 'btn btn-danger', data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+                <% if post.user == current_user %>
+              <% end %>
+              </div>
+            </div>
+          </div>
         <% end %>
-      </td>
-    </tr>
-  <% end %>
-</table>
+      <% else %>
+        <h2>No posts yet.</h2>
+      <% end %>
+    </div>
+
+  </div>
+  <div class="d-flex justify-content-center">
+    <%= paginate @user_posts %>
+  </div>
+</div>
 

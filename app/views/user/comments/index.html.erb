@@ -1,15 +1,22 @@
-<h1>Your Comments</h1>
+<div class="container">
+  <h1 class="font-monospace">Your Comments In Every Posts</h1>
 
-<div class="table-responsive">
-  <table class="table">
-    <% @my_comments.each do |comment| %>
-      <tr>
-        <td><%= comment.content %></td>
-        <td><%= link_to 'VIEW POST', post_path(comment.post) %></td>
-      </tr>
-    <% end %>
-  </table>
-  <div class="d-flex justify-content-center">
-    <%= paginate @my_comments %>
-  </div>
+  <div class="table-responsive">
+    <table class="table">
+      <% if @my_comments.any? %>
+        <h3></h3>
+        <% @my_comments.each do |comment| %>
+          <tr>
+            <td><%= comment.content %></td>
+            <td><%= link_to 'VIEW POST', post_path(comment.post), class: "btn btn-sm btn-dark" %></td>
+          </tr>
+        <% end %>
+        </table>
+        <div class="d-flex justify-content-center">
+          <%= paginate @my_comments %>
+        </div>
+      <% else %>
+        <h3 class="font-monospace">No comments yet.</h3>
+      <% end %>
+      </div>
 </div>
