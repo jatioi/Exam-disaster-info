@@ -1,32 +1,34 @@
-<%= form_with model: post, data: { turbo: false } do |form| %>
-  <div>
-    <%= form.collection_check_boxes :category_ids, Category.all, :id, :name %>
-  </div>
-  <div>
-    <%= form.file_field :image %>
-  </div>
-  <% if post.errors.any? %>
-    <ul>
-      <% post.errors.each do |error| %>
-        <li><%= error.full_message %></li>
-      <% end %>
-    </ul>
+<div class="container">
+
+  <%= form_with model: post, data: { turbo: false } do |form| %>
+    <%= hidden_field_tag :from_my_post, params[:from_my_post] %>
+    <div class="mb-3">
+      <%= form.collection_check_boxes :category_ids, Category.all, :id, :name, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.file_field :image, class: "form-control form-control-sm" %>
+    </div>
+    <% if post.errors.any? %>
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+    <div class="mb-3">
+      <%= form.label :title, class: "form-label" %>
+      <%= form.text_field :title, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :content, class: "form-label" %>
+      <%= form.text_field :content, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :address, class: "form-label" %>
+      <%= form.text_field :address, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.submit class: "btn btn-primary" %>
+    </div>
   <% end %>
-  <div>
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </div>
-  <div>
-    <%= form.label :content %>
-    <%= form.text_field :content %>
-  </div>
-  <div>
-    <%= form.label :address %>
-    <%= form.text_field :address %>
-  </div>
-
-  <%= form.submit %>
-
-
-<% end %>
-
+</div>

@@ -1,37 +1,70 @@
-<h3>Post  <%= link_to 'Edit Post', edit_post_path(@post), class: 'btn btn-outline-success' if @post.user == current_user %>
-</h3>
+<div class="container">
+  <div class="d-flex flex-row justify-content-between align-items-center border-bottom ">
+    <h1>Post</h1>
+  </div>
+  <br>
+  <div class="card" style="width: 30rem;">
+    <img><%= image_tag @post.image.url if @post.image.present? %></img>
+    <div class="card-body">
+      <h2 class="card-title font-monospace"><%= @post.title %></h2>
+      <h4 class="card-text"><%= @post.content %></h4>
+      <p class="card-text"><small>Created At: <%= @post.created_at %></p></small>
+      <p class="card-text"><small>Updated At: <%= @post.updated_at %></small></p>
+    </div>
+    <div class="card-body d-flex flex-vertical justify-content-between align-items-center">
+      <a href="#comments" class="btn btn-sm btn-secondary me-2">View Comments</a>
+      <% if @post.user == current_user %>
+        <%#= link_to 'Edit Post', edit_post_path(@post), class: "btn btn-sm btn-primary me-2" %>
+        <%= link_to 'edit ', edit_post_path(@post, from_my_post: true), class: "btn btn-primary me-2" %>
 
-<ul>
-  <td><%= image_tag @post.image.url if @post.image.present? %></td>
-  <li>Title: <%= @post.title %></li>
-  <li>Content: <%= @post.content %></li>
-  <li>Created At: <%= @post.created_at %></li>
-  <li>Updated At: <%= @post.updated_at %></li>
+        <%= button_to 'Delete Post', post_path(@post), method: :delete, class: "btn btn-sm btn-danger", data: { turbo_method: :delete, turbo_confirm: 'WARNING: All of its comments will be deleted. Continue?' } %>
+      <% end %>
+    </div>
+  </div>
 
 
-</ul>
-<h3>Comments <%= link_to 'Add comments', new_post_comment_path(@post), class: "btn btn-light" %>
-</h3>
+  <div id="comments" class="mt-4">
+    <div class="comment-header w-100 border-bottom mb-3">
+      <h3><%= "#{@post.comments_count} #{@post.comments_count == 1 ? "Comment" : "Comments"}" %></h3>
+    </div>
 
-<% if @comments.any? %>
-  <ul>
-    <% @comments.each do |comment| %>
-      <li>
-        <%= comment.content %>
-        <%= comment.user.email %>
-        <%= comment.created_at %>
-        <% if comment.user == current_user %>
-          <%= link_to 'Edit', edit_post_comment_path(@post, comment), class: "btn btn-sm btn-primary me-2" %>
-          <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, class: "btn btn-sm btn-danger me-2", data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+    <div class="mb-2">
+      <% if user_signed_in? %>
+        <%= form_with model: @comment, url: post_comments_path(@post), method: :post, class: "d-flex flex-row" do |form| %>
+          <%= form.text_field :content, placeholder: "Write a comment...", class: "form-control me-2", required: true %>
+          <%= form.submit "Send", class: "btn btn-primary" %>
         <% end %>
-      </li>
+      <% else %>
+        <%= link_to "You need to login before commenting on this post.", new_user_session_path, class: "btn btn-secondary w-100" %>
+      <% end %>
+    </div>
 
+    <% @comments.each do |comment| %>
+      <div class="card mb-2">
+        <div class="card-body">
+          <div class="d-flex flex-row justify-content-between align-items-center">
+            <div class="d-flex flex-row align-items-center">
+              <h6 class="card-title me-2"><%= comment.user.email %></h6>
+              <span>| <%= comment.created_at %></span>
+            </div>
+          </div>
+
+          <p class="card-text"><%= comment.content %></p>
+
+          <div class="d-flex flex-row">
+            <% if comment.user == current_user %>
+              <%= link_to 'Edit', edit_post_comment_path(@post, comment), class: "btn btn-sm btn-primary me-2" %>
+            <% end %>
+            <% if comment.user == current_user || @post.user == current_user %>
+              <%= button_to 'Delete', post_comment_path(@post, comment), method: :delete, class: "btn btn-sm btn-danger me-2", data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' } %>
+            <% end %>
+          </div>
+        </div>
+      </div>
     <% end %>
-  </ul>
-<% else %>
-  <p>No comments yet.</p>
-<% end %>
 
-<%= link_to '<< Go back', user_posts_path %>
+  </div>
+</div>
+
 
 
