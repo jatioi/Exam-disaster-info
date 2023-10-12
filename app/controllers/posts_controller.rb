@@ -22,7 +22,7 @@ class PostsController < ApplicationController
   end
   def show
     @post = Post.find(params[:id])
-    @comments = @post.comments
+    @comments = @post.comments.page(params[:page])&.per(10)
     @comments = @post.comments.includes(:user)
     @comment = @post.comments.build
     session[:previous_url] = request.referer
@@ -36,7 +36,7 @@ class PostsController < ApplicationController
     @page = params[:page]
     if @post.update(post_params)
       flash[:notice] = 'Post update successfully'
-      redirect_to root_path(page: @page)
+      redirect_to params[:from_my_post].present? ? user_posts_path : root_path(page: @page)
     else
       flash.now[:alert] = 'Post failed to update'
       render :edit, status: :unprocessable_entity
